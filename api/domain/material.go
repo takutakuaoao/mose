@@ -11,3 +11,7 @@ func NewMaterial() *Material {
 func (m *Material) AddComment(comment string) {
 	m.Comment = comment
 }
+
+func (m *Material) HasThisComment(comment string) bool {
+	return m.Comment == comment
+}

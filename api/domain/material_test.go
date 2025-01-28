@@ -12,3 +12,32 @@ func Test_コメントを追加する(t *testing.T) {
 
 	assert.Equal(t, "コメント", material.Comment)
 }
+
+func Test_指定したコメントを保持しているかのテーブルテスト(t *testing.T) {
+	material := domain.NewMaterial()
+	material.AddComment("コメント")
+
+	cases := []struct {
+		name     string
+		comment  string
+		expected bool
+	}{
+		{
+			name:     "指定したコメントを保持している場合にtrue",
+			comment:  "コメント",
+			expected: true,
+		},
+		{
+			name:     "指定したコメントを保持していない場合にfalse",
+			comment:  "正しくないコメント",
+			expected: false,
+		},
+	}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			assert.Equal(t, c.expected, material.HasThisComment(c.comment))
+		})
+	}
+
+}
