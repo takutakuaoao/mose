@@ -10,7 +10,7 @@ func Test_コメントを追加する(t *testing.T) {
 	material := domain.NewMaterial()
 	material.AddComment("コメント")
 
-	assert.Equal(t, "コメント", material.Comment)
+	assert.True(t, material.HasThisComment("コメント"))
 }
 
 func Test_指定したコメントを保持しているかのテーブルテスト(t *testing.T) {

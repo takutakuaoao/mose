@@ -1,7 +1,7 @@
 package domain
 
 type Material struct {
-	Comment string
+	comment string
 }
 
 func NewMaterial() *Material {
@@ -9,9 +9,9 @@ func NewMaterial() *Material {
 }
 
 func (m *Material) AddComment(comment string) {
-	m.Comment = comment
+	m.comment = comment
 }
 
 func (m *Material) HasThisComment(comment string) bool {
-	return m.Comment == comment
+	return m.comment == comment
 }
