@@ -7,7 +7,7 @@ import (
 )
 
 func Test_コメントを追加する(t *testing.T) {
-	material := domain.Material{}
+	material := domain.NewMaterial()
 	material.AddComment("コメント")
 
 	assert.Equal(t, "コメント", material.Comment)
