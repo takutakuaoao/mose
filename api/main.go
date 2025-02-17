@@ -1,7 +1,12 @@
 package main
 
 import (
+	"database/sql"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
+	"os"
 )
 
 func setupRouter() *gin.Engine {
@@ -11,8 +16,39 @@ func setupRouter() *gin.Engine {
 
 	// Ping test
 	r.GET("/health-checker", func(c *gin.Context) {
+		err := godotenv.Load()
+
+		if err != nil {
+			panic(err.Error())
+		}
+
+		db, _ := sql.Open("mysql", os.Getenv("DATABASE_URL"))
+		defer db.Close()
+
+		//構造体
+		type Sample struct {
+			ID        int    `json:"id"`
+			Title     string `json:"title"`
+			CreatedAt string `json:"created_at"`
+		}
+		var sample Sample
+
+		err = db.QueryRow("SELECT * FROM samples").Scan(&sample.ID, &sample.Title, &sample.CreatedAt)
+
+		if err != nil {
+			panic(err.Error())
+		}
+
+		//jsonを生成
+		res, err := json.Marshal(sample)
+		if err != nil {
+			panic(err.Error())
+			return
+		}
+
 		c.JSON(200, gin.H{
 			"result": "success",
+			"sample": string(res),
 		})
 	})
 
