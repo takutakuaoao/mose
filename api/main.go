@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"os"
 )
 
@@ -22,7 +22,7 @@ func setupRouter() *gin.Engine {
 			panic(err.Error())
 		}
 
-		db, _ := sql.Open("mysql", os.Getenv("DATABASE_URL"))
+		db, _ := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 		defer db.Close()
 
 		//構造体
