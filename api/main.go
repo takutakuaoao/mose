@@ -16,12 +16,6 @@ func setupRouter() *gin.Engine {
 
 	// Ping test
 	r.GET("/health-checker", func(c *gin.Context) {
-		err := godotenv.Load()
-
-		if err != nil {
-			panic(err.Error())
-		}
-
 		db, _ := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 		defer db.Close()
 
@@ -33,7 +27,7 @@ func setupRouter() *gin.Engine {
 		}
 		var sample Sample
 
-		err = db.QueryRow("SELECT * FROM samples").Scan(&sample.ID, &sample.Title, &sample.CreatedAt)
+		err := db.QueryRow("SELECT * FROM samples").Scan(&sample.ID, &sample.Title, &sample.CreatedAt)
 
 		if err != nil {
 			panic(err.Error())
@@ -56,7 +50,19 @@ func setupRouter() *gin.Engine {
 }
 
 func main() {
+	loadEnv()
+
 	r := setupRouter()
 	// Listen and Server in 0.0.0.0:8080
 	_ = r.Run(":8080")
+}
+
+func loadEnv() {
+	if os.Getenv("ENV") == "" {
+		err := godotenv.Load()
+
+		if err != nil {
+			panic(err.Error())
+		}
+	}
 }
