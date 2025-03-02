@@ -1,9 +1,16 @@
 import {useState} from "react";
 
-export default function PlayButton() {
+type Props = {
+    onClick: (isPlaying: boolean) => void;
+}
+
+export default function PlayButton(props: Props) {
     const [isPlaying, setIsPlaying] = useState(false);
 
-    const onClick = () => setIsPlaying(!isPlaying)
+    const onClick = () => {
+        props.onClick(!isPlaying);
+        setIsPlaying(!isPlaying);
+    }
 
     const displayMessage = {
         playing: "停止",
