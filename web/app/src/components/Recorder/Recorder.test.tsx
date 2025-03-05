@@ -22,6 +22,6 @@ test("録音停止状態になるとstopメソッドが呼ばれる", () => {
 const mockInput: MediaInputStream = {
     start: () => {},
     stop: () => {},
-    onStopEvent: (_: (e: BlobEvent) => void)=> {
+    onStopEvent: ()=> {
     }
 }
