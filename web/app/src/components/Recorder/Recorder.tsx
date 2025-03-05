@@ -29,20 +29,20 @@ export function Recorder(props: Props) {
     const inputStreamRef = useRef<MediaInputStream>(null);
 
     useEffect(() => {
-        inputStreamRef.current = initInputStream(props.mediaInputStream);
-    }, [props.mediaInputStream]);
+        const initInputStream = (mediaInputStream?: MediaInputStream): MediaInputStream | null => {
+            if (!isDefinedInputStream(mediaInputStream)) {
+                return null;
+            }
 
-    function initInputStream(mediaInputStream?: MediaInputStream): MediaInputStream | null {
-        if (!isDefinedInputStream(mediaInputStream)) {
-            return null;
+            mediaInputStream.onStopEvent((e) => {
+                setSrcURL(URL.createObjectURL(e.data));
+            })
+
+            return mediaInputStream;
         }
 
-        mediaInputStream.onStopEvent((e) => {
-            setSrcURL(URL.createObjectURL(e.data));
-        })
-
-        return mediaInputStream;
-    }
+        inputStreamRef.current = initInputStream(props.mediaInputStream);
+    }, [props.mediaInputStream]);
 
     useEffect(() => {
         if (!isDefinedInputStream(inputStreamRef.current)) {
