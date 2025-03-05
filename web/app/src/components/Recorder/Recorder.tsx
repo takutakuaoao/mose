@@ -19,7 +19,7 @@ const AudioRecorder = (props: Omit<Props, 'mediaInputStream'>) => {
         init()
     }, []);
 
-    return <Recorder {...props} mediaInputStream={mediaInputStream} />;
+    return <Recorder {...props} mediaInputStream={mediaInputStream}/>;
 }
 
 export default AudioRecorder;
@@ -61,6 +61,6 @@ export function Recorder(props: Props) {
     }
 
     return <>
-        <audio src={srcURL} controls={true}/>
+        {srcURL && (<audio src={srcURL} controls={true}/>)}
     </>
 }
